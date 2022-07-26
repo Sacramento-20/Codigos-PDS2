@@ -1,0 +1,148 @@
+
+Herança e Composição
+
+VPL: 1
+
+Nome: Treinador Pokemon
+
+Objetivo:
+
+Seu objetivo neste exercício é usar os conceitos de herança e composição para simular uma parte do universo pokémon. 
+
+No final, sua aplicação deverá permitir gerenciar as pokébolas de um treinador e capturar novos pokémons.
+
+Não será preciso implementar a main.cpp, mas você pode baixá-la aqui se desejar reproduzir o exercício em sua máquina.
+
+
+TADs:
+
+Classe Treinador
+
+Atributos:
+
+private std::string nome ➜ Nome do treinador
+private std::vector<EvolutionBall*> evolution_balls ➜ EvolutionBalls do treinador
+private std::vector<HealthBall*> health_balls ➜ HealthBalls do treinador
+Métodos: (Todos os métodos descritos abaixo devem ser públicos)
+
+Treinador(std::string _nome) ➜ Construtor que inicializa as variáveis
+~Treinador() ➜ Libera a memória alocada para as pokébolas (evolution_balls e health_balls)
+HealthBall* selecionarHealthBall(int _id) ➜ Retorna uma HealthBalls pelo seu id ou nullptr se não a encontrar
+EvolutionBall* selecionarEvolBall(int _id) ➜ Retorna uma EvolutionBall pelo seu id ou nullptr se não a encontrar
+void adicionarPokebola(HealthBall* pokebola) ➜ Adicionar uma nova HealthBall a lista de health_balls
+void adicionarPokebola(EvolutionBall* pokebola) ➜ Adicionar uma nova EvolutionBall a lista de evolution_balls
+void listarPokemons() ➜ Lista as informações dos pokémons que o treinador possui.
+Quando o treinador não tem pokébolas a saída deve ser:
+
+Treinador: [nome_treinador]
+
+O treinador não possui pokebolas
+
+A saída para um treinador que possui 2 pokébolas (1 HealthBall e 1 EvolutionBall) e uma contém um pokémon e outra não:
+
+Treinador: [nome_treinador]
+
+HealthBall ID: [id_pokebola]
+
+Pokemon: [nome_pokemon], [tipo_pokemon], [forcaAtaque], [forcaDefesa], [saude]
+
+EvolutionBall ID: [id_pokebola]
+
+A pokebola não possui um pokemon
+
+Quando a pokébola possui um pokémon capturado são exibidas as informações dele e quando ela não possui nenhum pokémon é exibida a mensagem ”A pokebola não possui um pokemon.”
+
+Observações:
+
+Note que no exemplo da saída do método void listarPokemons() você NÃO deve printar os colchetes também, eles são apenas uma forma de indicar que o que está entre os colchetes é um campo do objeto.
+
+
+Classe Pokebola
+
+Atributos:
+
+private static int count ➜ Contador de pokébolas criadas
+protected int id ➜ Identificador da pokébola, atualizado de acordo com o valor do contador
+protected PokemonCapturado* pokemon ➜ Pokémon capturado da pokébola
+Métodos: (Todos os métodos descritos abaixo devem ser públicos)
+
+Pokebola() ➜ Inicializa as variáveis. O construtor deve incrementar o contador depois de atribuir o id da pokebola como o valor do contador.
+~Pokebola() ➜ Libera a memória alocada para o pokémon capturado.
+int getId() ➜ Retorna o Id da pokébola
+void guardarPokemon() ➜ Marca o pokémon com o status “dormindo”, caso a pokébola possua um pokémon
+Pokemon* liberarPokemon() ➜ Se a pokébola não tem pokémon retorna nullptr, mas se ela tem remove o status de dormindo do pokémon e retorna um ponteiro para ele
+bool capturar(Pokemon& _pokemon) ➜ Deve se obter um número aleatório entre 0 e 1 utilizando a rand() da biblioteca <cstdlib>:
+~> Se o valor obtido for maior que 0.5 o pokémon é capturado e colocado na pokebola e você deve retornar true. Para colocá-lo na pokébola você irá precisar de criar uma instância PokemonCapturado que tenha as mesmas informações que o pokémon recebido pela função
+~> Se o valor obtido for menor ou igual que 0.5 você deve retornar false indicando que o pokémon não foi capturado
+~> ATENÇÃO: Você não precisa informar a seed, pois ela já é informada no main.cpp.
+
+Classe HealthBall : Pokebola
+
+Atributos:
+
+private time_t ultimoUso ➜ Indica quando foi o último uso da habilidade de cura desta pokébola. O tipo time_t deve ser utilizado com a biblioteca <ctime>. Ele representa o tempo em segundos. Se ele for igual a 0 é o equivalente às 00:00 de 1 de Janeiro de 1970 (UTC )
+private double intervalo ➜ Indica qual o intervalo em segundos que pode se utilizar a habilidade de cura novamente
+Métodos: (Todos os métodos descritos abaixo devem ser públicos)
+
+HealthBall(double _intervalo) ➜ HealthBall é uma pokébola especial que permite que o treinador cure seu pokémon restaurando sua saúde ao máximo. Essa habilidade só pode ser utilizado de tempos em tempos que é estabelecida pelo atributo “intervalo” dessa pokébola
+bool recuperarPokemon() ➜ Estabelece a seguinte regra:
+~> Se a pokébola não possuir um pokémon então a habilidade não pode ser utilizada, retornando false.
+~> Se a pokébola possui um pokémon, então a habilidade só pode ser utilizada se a diferença entre a data de último uso e a data atual for maior do que o “intervalo”, se isso for verdade deve se retornar true indicando que a habilidade foi usada, caso o contrário, deve se retornar false. Para saber a data atual o método time da biblioteca <ctime> pode ajudar e para calcular a diferença entre as datas o método difftime da biblioteca <ctime> também pode ajudar. Lembre-se de restaurar a saúde nesse momento (maxSaude). Dica: não se esqueça também de atualizar a ultimoUso também!
+
+
+Classe EvolutionBall : Pokebola
+
+Atributos:
+
+private double taxaPoder ➜ Indica qual a taxa que o poder do pokémon será aumentado após a evolução
+private bool habilidadeUsada ➜ Indica se a habilidade de evoluir já foi usada ou não
+Métodos: (Todos os métodos descritos abaixo devem ser públicos)
+
+EvolutionBall(double _taxaPoder) ➜ EvolutionBall é uma pokébola especial que tem a habilidade de evoluir uma única vez o pokémon capturado. O método construtor é responsável por inicializar o taxaPoder que é uma variável que indica o quanto o poder do pokémon vai aumentar após a evolução.
+bool evoluirPokemon() ➜ Estabelece a seguinte regra:
+~> Se a pokébola não possuir um pokémon então a habilidade não pode ser utilizada, retornando false.
+~> Se a pokébola possui um pokémon, então a habilidade só pode ser utilizada se já não tiver sido usada antes. Caso utilizada deve retornar true e se não for utilizada deve retornar false. Lembre-se que após a habilidade ser utilizada a flag deve ser atualizada para true e você deve chamar o método evoluir() de Pokemon.
+
+
+Pokemon
+
+Atributos:
+
+protected std::string nome ➜ Nome do pokémon
+protected std::string tipo ➜ Tipo do pokémon
+protected double forcaAtaque ➜ Indicador da força de ataque do pokémon
+protected double forcaDefesa ➜ Indicador da força de defesa do pokémon
+protected std::string proxEvolucao ➜ Nome da próxima evolução do pokémon
+protected double saude ➜ Indicador da saúde do pokémon
+Métodos: (Todos os métodos descritos abaixo devem ser públicos)
+
+Pokemon(std::string _nome, std::string _tipo, std::string _pEvol, double _fA, double _fD, double _saude) ➜ _pEvol é referente a proximaEvolucao, _fA é referente a forcaAtaque e _fD é referente a forcaDefesa. O construtor deve inicializar os atributos do objeto
+std::string getNome() ➜ Retorna o nome do pokémon
+void maxSaude() ➜ O valor máximo da saúde é 100. Este método deve preencher a saúde do pokemon com 100.
+void info() ➜ Printa as informações a respeito do pokémon no seguinte formato:
+Pokemon: [nome_pokemon], [tipo_pokemon], [forcaAtaque], [forcaDefesa], [saude]
+
+Observações:
+
+Note que no exemplo da saída do método void info() você NÃO deve printar os colchetes também, eles são apenas uma forma de indicar que o que está entre os colchetes é um campo do objeto.
+
+
+
+PokemonCapturado : Pokemon
+
+Atributos:
+
+private bool evoluido ➜ Indicador se pokémon já foi evoluído
+private bool dormindo ➜ Indicador se o pokémon está dormindo
+Métodos:
+
+PokemonCapturado(Pokemon& _pok) ➜ Inicializa as variáveis: evoluido será false e dormindo será true. A referência _pok deve ser passada para o contrutor da classe pai, o que estamos fazendo é utilizando o construtor de cópia da classe pai (você pode ler mais sobre construtores de cópia neste link)
+void evoluir(double taxaPoder) ➜ Este método vai evoluir o pokémon setando o atributo “evoluido” como true. O processo de evoluir precisa:
+~> Atualizar o nome do pokémon para o nome da sua evolução
+~> Colocar o nome da próxima evolução como vazia
+~> Aumentar a força de defesa e ataque. A “taxaPoder” é um número entre 0 e 1 que representa qual fator de aumento que a força de defesa e ataque irão sofrer
+
+Você tem liberdade para implementar quaisquer outros métodos na TAD que julgar necessário. Lembre-se que getters e setters 
+
+podem ser importantes quando atributos são privados ou protegidos e precisamos acessá-los de fora da classe.
+

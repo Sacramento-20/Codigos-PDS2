@@ -1,0 +1,11 @@
+Anne 3 1
+h 0 kakuna inseto 9 30.9 beedrill 63
+e 3 jigglypuff normal 18 15.1 wigglytuff 13
+h 2 odish planta 22.5 16.9 gloom 80
+h 1 clefairy fada 12.1 22 clefable 10
+q
+h 1
+i 3000
+h 1
+e 3
+q

@@ -1,0 +1,5 @@
+Rui 0 1
+e 0 jigglypuff normal 18 15.1 wigglytuff 13
+q
+e 0
+q
