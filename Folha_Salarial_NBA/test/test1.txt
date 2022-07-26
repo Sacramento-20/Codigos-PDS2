@@ -1,0 +1,7 @@
+j GoldenStateWarriors AndrewWiggins SF 31579390
+j GoldenStateWarriors StephenCurry PG 45780966
+j BrooklynNets KevinDurant PF 42018900
+j BrooklynNets JamesHarden SG 44310840
+j LosAngelesLakers RussellWestbrook PG 44211146
+j LosAngelesLakers LeBronJames SF 41180544
+g

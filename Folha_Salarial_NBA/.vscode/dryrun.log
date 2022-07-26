@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/lucas/Desktop/Workspace/folha_salarial'
+make: 'program' is up to date.
+make: Leaving directory '/home/lucas/Desktop/Workspace/folha_salarial'
+ 
